@@ -2,20 +2,24 @@
 //  DetailViewController.swift
 //  TrendingGitSwift
 //
-//  Created by Varun Tyagi on 27/10/16.
-//  Copyright © 2016 Varun Tyagi. All rights reserved.
+//  Created by Vinove on 27/10/16.
+//  Copyright © 2016 Vinove. All rights reserved.
 //
 
 import UIKit
 
 class DetailViewController: UIViewController {
 
+    var   projectData:Project!
     override func viewDidLoad() {
         super.viewDidLoad()
 
         // Do any additional setup after loading the view.
     }
-
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        self.title=self.projectData.projectName
+    }
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.

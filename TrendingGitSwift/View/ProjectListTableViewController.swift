@@ -2,51 +2,127 @@
 //  ProjectListTableViewController.swift
 //  TrendingGitSwift
 //
-//  Created by Varun Tyagi on 27/10/16.
-//  Copyright © 2016 Varun Tyagi. All rights reserved.
+//  Created by Vinove on 27/10/16.
+//  Copyright © 2016 Vinove. All rights reserved.
 //
 
 import UIKit
+import MBProgressHUD
 
-class ProjectListTableViewController: UITableViewController {
+class ProjectListTableViewController: UITableViewController ,UISearchControllerDelegate,UISearchBarDelegate,UISearchResultsUpdating{
+    @available(iOS 8.0, *)
+    public func updateSearchResults(for searchController: UISearchController) {
+ 
+    }
 
+    let progressHUD = MBProgressHUD()
+    var detailViewController: DetailViewController? = nil
+
+    let searchController = UISearchController(searchResultsController: nil)
+    var searchKey:String = ""
+    let   projectHelper:ProjectServiceHelper=ProjectServiceHelper()
+    var pageNumber:Int = 1
+    var flagStopReload:Bool = false
+    
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        // Uncomment the following line to preserve selection between presentations
-        // self.clearsSelectionOnViewWillAppear = false
-
-        // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-        // self.navigationItem.rightBarButtonItem = self.editButtonItem()
+        
+        
+        self.setup()
+        self.loadData()
+        
     }
-
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        self.title="Git Trending"
     }
+    
+    func setup() -> Void {
+        // Setup the Search Controller
+        searchController.searchResultsUpdater = self
+        searchController.searchBar.delegate = self
+        searchController.searchBar.returnKeyType = .done
+        definesPresentationContext = true
+        searchController.dimsBackgroundDuringPresentation = false
+        
+        // Setup the Scope Bar
+        tableView.tableHeaderView = searchController.searchBar
+        
+        // tableView footer Clear
+        tableView.tableFooterView=UIView()
+    }
+    
+    func loadData() ->Void  {
+        let loadingNotification = MBProgressHUD.showAdded(to: self.view, animated: true)
+        loadingNotification.mode = MBProgressHUDMode.indeterminate
+        loadingNotification.label.text = "Loading"
 
+        projectHelper.sendRequestForData(searchKey:self.searchKey, pageNo: pageNumber) { (result:Bool) in
+            
+            MBProgressHUD.hide(for: self.view, animated: true)
+            if result{
+                self.tableView.reloadData()
+                
+            }else{
+                self.flagStopReload=true
+            }
+        }
+    }
+   
     // MARK: - Table view data source
 
     override func numberOfSections(in tableView: UITableView) -> Int {
         // #warning Incomplete implementation, return the number of sections
-        return 0
+        return 1
     }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of rows
-        return 0
+        return projectHelper.projectListArray.count
     }
 
-    /*
+    
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "reuseIdentifier", for: indexPath)
+        let cell = tableView.dequeueReusableCell(withIdentifier: "ProjectListCell", for: indexPath) as! ProjectListTableViewCell
 
         // Configure the cell...
+        cell.setProjectData(model:projectHelper.projectListArray[indexPath.row])
 
-        return cell
+
+         return cell
     }
-    */
+    
+    override func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
+        let lastSectionIndex:NSInteger = tableView.numberOfSections - 1;
+        let  lastRowIndex:NSInteger = tableView.numberOfRows(inSection: lastSectionIndex)-1
+        
+        if ((indexPath.section == lastSectionIndex) && (indexPath.row == lastRowIndex)) {
+            // This is the last cell
+            if projectHelper.projectListArray.count>29 && flagStopReload==false {
+                pageNumber += 1
+                self.loadData()
+            }
+            
+        }
+        
 
+    }
+    
+        // MARK: - UISearchBar Delegate
+    
+    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
+        self.pageNumber=1
+        self.searchKey=searchBar.text!
+        projectHelper.projectListArray.removeAll()
+        self.loadData()
+    }
+   
+    func  searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
+        
+    }
+    
+    
     /*
     // Override to support conditional editing of the table view.
     override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
@@ -82,14 +158,25 @@ class ProjectListTableViewController: UITableViewController {
     }
     */
 
-    /*
+
     // MARK: - Navigation
 
     // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
+        // MARK: - Segues
+            if segue.identifier == "showDetail" {
+                    let viewController:DetailViewController = segue.destination as! DetailViewController
+                    viewController.projectData = projectHelper.projectListArray[(tableView.indexPathForSelectedRow?.row)!]
+                }
+            }
+    
+        
+
+
+
+    override func didReceiveMemoryWarning() {
+        super.didReceiveMemoryWarning()
+        // Dispose of any resources that can be recreated.
     }
-    */
 
 }
