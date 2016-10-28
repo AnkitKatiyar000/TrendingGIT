@@ -73,6 +73,10 @@ class ProjectListTableViewController: UITableViewController ,UISearchControllerD
         projectHelper.projectListArray.removeAll()
         self.loadData()
     }
+    
+    func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
+        flagStopReload=false
+    }
     // MARK: - Custom Methods
     
     func setup() -> Void {
