@@ -20,17 +20,23 @@ class Project: NSObject {
     var developerImage : String = ""
     var developerName: String = ""
     var developerDescription: String = ""
+    var fullName : String = ""
     
     init(json: NSDictionary) {
         
         
         self.projectName = json.value(forKey: "name") as! String! ?? ""
-        self.stars = json.value(forKey: "stargazers_count") as! Int!
-        self.forks = json.value(forKey: "forks_count") as! Int!
+        self.fullName = json.value(forKey: "full_name") as! String! ?? ""
+            
+        self.stars = json.value(forKey: "stargazers_count") as! Int! ?? 0
+        self.forks = json.value(forKey: "forks_count") as! Int! ?? 0
       
         if let descriptionStr = json["description"] as? String {
             self.projectDescription = descriptionStr
             self.developerDescription = descriptionStr
+        }else{
+            self.projectDescription = "No Description"
+            self.developerDescription = "No Description"
         }
         
         
@@ -55,16 +61,14 @@ typealias CompletionHandler = (_ success:Bool) -> Void
 class ProjectServiceHelper {
     
     var projectListArray = [Project]()
-    let manager = AFHTTPSessionManager()
     var dataTask:URLSessionDataTask?
     
    
     func sendRequestForData(searchKey: String ,pageNo: Int, completion: @escaping CompletionHandler){
        
         let url = NSURL(string:"https://api.github.com/search/repositories?q=\(searchKey)+language:assembly&sort=stars&order=desc&page=\(pageNo)")
-        print("\n\n My url is  \(url) \n\n" );
         let configuration: URLSessionConfiguration = URLSessionConfiguration.default
-        let afManager = AFURLSessionManager(sessionConfiguration: configuration)
+        let manager = AFURLSessionManager(sessionConfiguration: configuration)
         let urlRequest: NSMutableURLRequest = NSMutableURLRequest(url: url as! URL)
         
         urlRequest.httpMethod = "GET"
@@ -77,9 +81,9 @@ class ProjectServiceHelper {
             if dataTask!.state==URLSessionTask.State.running{
                 dataTask!.cancel()
             }
-}
+                }
         
-        dataTask =  afManager.dataTask(with: urlRequest as URLRequest){ (data, response, error) in
+        dataTask =  manager.dataTask(with: urlRequest as URLRequest){ (data, response, error) in
             
             if(response == nil){
                 completion(false)
@@ -87,7 +91,6 @@ class ProjectServiceHelper {
             }else{
                
                 let responseDict:NSDictionary = response as! NSDictionary
-                print(responseDict)
                 let dataArray = responseDict["items"] as! NSArray;
                 if dataArray.count>0{
                     for item in dataArray {

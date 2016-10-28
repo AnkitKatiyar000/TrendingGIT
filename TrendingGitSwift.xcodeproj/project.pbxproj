@@ -15,6 +15,8 @@
 		3767757A1DC1D0D00013ECF4 /* ProjectListTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 376775791DC1D0D00013ECF4 /* ProjectListTableViewCell.swift */; };
 		3767757C1DC1D0E70013ECF4 /* Project.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3767757B1DC1D0E70013ECF4 /* Project.swift */; };
 		3767757E1DC1D1280013ECF4 /* DetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3767757D1DC1D1280013ECF4 /* DetailViewController.swift */; };
+		3767758A1DC22DED0013ECF4 /* Detail View.png in Resources */ = {isa = PBXBuildFile; fileRef = 376775881DC22DED0013ECF4 /* Detail View.png */; };
+		3767758B1DC22DED0013ECF4 /* Master View.png in Resources */ = {isa = PBXBuildFile; fileRef = 376775891DC22DED0013ECF4 /* Master View.png */; };
 		EE27AF6845C40DA603960038 /* Pods_TrendingGitSwift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C9522F3C47C31BF03486E3BB /* Pods_TrendingGitSwift.framework */; };
 /* End PBXBuildFile section */
 
@@ -29,6 +31,8 @@
 		376775791DC1D0D00013ECF4 /* ProjectListTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ProjectListTableViewCell.swift; path = TableViewCell/ProjectListTableViewCell.swift; sourceTree = "<group>"; };
 		3767757B1DC1D0E70013ECF4 /* Project.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Project.swift; path = Model/Project.swift; sourceTree = "<group>"; };
 		3767757D1DC1D1280013ECF4 /* DetailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DetailViewController.swift; path = View/DetailViewController.swift; sourceTree = "<group>"; };
+		376775881DC22DED0013ECF4 /* Detail View.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Detail View.png"; sourceTree = "<group>"; };
+		376775891DC22DED0013ECF4 /* Master View.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Master View.png"; sourceTree = "<group>"; };
 		587B740A8282B418F5EE66A7 /* Pods-TrendingGitSwift.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TrendingGitSwift.debug.xcconfig"; path = "Pods/Target Support Files/Pods-TrendingGitSwift/Pods-TrendingGitSwift.debug.xcconfig"; sourceTree = "<group>"; };
 		90D2BE5530361971302F26E1 /* Pods-TrendingGitSwift.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TrendingGitSwift.release.xcconfig"; path = "Pods/Target Support Files/Pods-TrendingGitSwift/Pods-TrendingGitSwift.release.xcconfig"; sourceTree = "<group>"; };
 		C9522F3C47C31BF03486E3BB /* Pods_TrendingGitSwift.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_TrendingGitSwift.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -67,7 +71,7 @@
 		376775611DC1C66D0013ECF4 /* TrendingGitSwift */ = {
 			isa = PBXGroup;
 			children = (
-				3767757F1DC1E0D00013ECF4 /* Network Handler */,
+				376775871DC22DED0013ECF4 /* Screenshots */,
 				376775761DC1D0770013ECF4 /* TableViewCell */,
 				376775751DC1CE510013ECF4 /* View */,
 				376775741DC1CE450013ECF4 /* Model */,
@@ -105,11 +109,13 @@
 			name = TableViewCell;
 			sourceTree = "<group>";
 		};
-		3767757F1DC1E0D00013ECF4 /* Network Handler */ = {
+		376775871DC22DED0013ECF4 /* Screenshots */ = {
 			isa = PBXGroup;
 			children = (
+				376775881DC22DED0013ECF4 /* Detail View.png */,
+				376775891DC22DED0013ECF4 /* Master View.png */,
 			);
-			name = "Network Handler";
+			path = Screenshots;
 			sourceTree = "<group>";
 		};
 		84EDE0601B66FC67E7F80F5F /* Frameworks */ = {
@@ -191,8 +197,10 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3767758A1DC22DED0013ECF4 /* Detail View.png in Resources */,
 				3767756D1DC1C66D0013ECF4 /* LaunchScreen.storyboard in Resources */,
 				3767756A1DC1C66D0013ECF4 /* Assets.xcassets in Resources */,
+				3767758B1DC22DED0013ECF4 /* Master View.png in Resources */,
 				376775681DC1C66D0013ECF4 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
